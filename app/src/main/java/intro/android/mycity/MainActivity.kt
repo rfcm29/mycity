@@ -5,6 +5,7 @@ import android.os.Bundle
 import intro.android.mycity.dataclasses.Nota
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import intro.android.mycity.adapter.ListaAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -18,10 +19,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        listaNotas = ArrayList<Nota>();
-
-        lista.adapter = ListaAdapter(listaNotas)
-        lista.layoutManager = LinearLayoutManager(this)
+        val recyclerView = findViewById<RecyclerView>(R.id.lista)
+        val adapter = ListaAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
     fun insert(view: View) {

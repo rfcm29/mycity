@@ -1,38 +1,41 @@
 package intro.android.mycity.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import intro.android.mycity.R
 import intro.android.mycity.dataclasses.Nota
 import kotlinx.android.synthetic.main.item.view.*
 
-class ListaAdapter(val list: ArrayList<Nota>):RecyclerView.Adapter<LineViewHolder>(){
+class ListaAdapter internal constructor(
+        context: Context
+): RecyclerView.Adapter<ListaAdapter.ListaViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LineViewHolder {
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var notas = emptyList<Nota>()
 
-        val itemView = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.item, parent, false)
-        return LineViewHolder(itemView)
+    class ListaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val listaItemView: TextView = itemView.findViewById(R.id.titulo)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListaViewHolder {
+        val itemView = inflater.inflate(R.layout.item, parent, false)
+        return ListaViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: LineViewHolder, position: Int) {
-        val currentItem = list[position]
+    override fun getItemCount() = notas.size
 
-        holder.titulo.text = currentItem.titulo
-        holder.data.text = currentItem.data.toString()
+    override fun onBindViewHolder(holder: ListaViewHolder, position: Int) {
+        val current = notas[position]
+        holder.listaItemView.text = current.titulo
     }
 
-}
-
-class LineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
-    val titulo = itemView.titulo
-    val data = itemView.data
+    internal fun setNotas(notas: List<Nota>) {
+        this.notas = notas
+        notifyDataSetChanged()
+    }
 }
